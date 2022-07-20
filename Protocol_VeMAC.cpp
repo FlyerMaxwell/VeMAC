@@ -113,18 +113,17 @@ void ve_mac(struct Duallist *ALL_Vehicles, int slot) {
 
 //根据此前的一个frame收到的packets，决定自己的slot
 int ve_mac_choose_slot(struct vehicle* aCar, int slot){
-    struct Item* bItem =(struct Item *) aCar->packets.head;
-    aCar->ve_check_flag = 1;
 
-    while(bItem != NULL){
-        struct packet* pkt = (struct packet*) bItem->datap;
 
+    int len = (*(aCar->packets)).size();
+    for( int ii = len-1; ii>=0; ii-- ) {
+        struct packet *pkt = (struct packet *) (*(aCar->packets))[ii];
         if(pkt->timestamp < slot - SlotPerFrame){
             break;
         }
 
         if(pkt->condition == 0){         //condition为0的包车辆是听不到的，也解不出
-            bItem = bItem->next;
+            continue;
         }else if(pkt->condition == 1){
             int index = (pkt->timestamp)%SlotPerFrame;
             aCar->OHN[index] = pkt->srcVehicle;
@@ -138,11 +137,9 @@ int ve_mac_choose_slot(struct vehicle* aCar, int slot){
             if(pkt->OHN_snapshot[aCar->slot_occupied] != aCar)
                 aCar->ve_check_flag = 0;
 
-            bItem = bItem->next;
         }else if(pkt->condition == 2){//对于冲突的包，只需要更新OHN为占用即可
             int index = (pkt->timestamp)%SlotPerFrame;
             aCar->OHN[index] = pkt->srcVehicle;
-            bItem = bItem->next;
         }
     }
 
@@ -171,17 +168,18 @@ int ve_mac_choose_slot(struct vehicle* aCar, int slot){
 }
 
 bool isMergingCollision(struct vehicle* aCar, int slot){
-    struct Item* bItem =(struct Item *) aCar->packets.head;
 
-    while(bItem != NULL){
-        struct packet* pkt = (struct packet*) bItem->datap;
+
+    int len = (*(aCar->packets)).size();
+    for( int ii = len-1; ii>=0; ii-- ) {
+        struct packet *pkt = (struct packet *) (*(aCar->packets))[ii];
 
         if(pkt->timestamp < slot){//只看最近的一个slot即可
             break;
         }
 
         if(pkt->condition == 0){         //condition为0的包车辆是听不到的，也解不出
-            bItem = bItem->next;
+            continue;
         }else if(pkt->condition == 1){
             //检测是否全部认可了自己
             if(pkt->OHN_snapshot[aCar->slot_occupied] != aCar){
@@ -191,10 +189,9 @@ bool isMergingCollision(struct vehicle* aCar, int slot){
                     }
                 }
             }
-
-            bItem = bItem->next;
+            continue;
         }else if(pkt->condition == 2){//对于冲突的包，只需要更新OHN为占用即可
-            bItem = bItem->next;
+            continue;
         }
     }
 

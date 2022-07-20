@@ -8,9 +8,8 @@
 #include <fstream>
 using namespace std;
 
-void handle_transmitter(struct Duallist *ALL_Vehicles, int slot, ofstream &logfile);
-void handle_receiver(struct Duallist *ALL_Vehicles, int slot,ofstream &logfile);
-
+void handle_transmitter(struct Duallist *ALL_Vehicles, int slot);
+void handle_receiver(struct Duallist *ALL_Vehicles, int slot);
 
 struct packet * generate_packet(struct vehicle *aCar, struct vehicle *bCar ,int slot, int condition);
 void log_collision(struct collision* coli);

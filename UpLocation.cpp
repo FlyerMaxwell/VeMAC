@@ -84,6 +84,11 @@ void updateLocation(struct Duallist *ALL_Vehicles, int slot, string trace_path){
         new_car->slot_condition = -1;
         new_car->slot_occupied = -1;
 
+        new_car->counter_tx = 0;
+        new_car->counter_rx_TxCollision = 0;
+        new_car->counter_rx_normal = 0;
+        new_car->counter_rx_RxCollision = 0;
+
 
         if(new_car->angle >= 0 && new_car->angle <180) new_car->resource_pool = 1;
         else new_car->resource_pool = 0;
@@ -142,7 +147,7 @@ void updateLocation(struct Duallist *ALL_Vehicles, int slot, string trace_path){
         if (flag == false){
             Car_Number++;
 
-            duallist_init(&(new_car->packets));
+            new_car->packets = new vector<struct packet*>;
             duallist_init(&(new_car->neighbours));
             duallist_add_to_tail(ALL_Vehicles, new_car);
         }
@@ -157,7 +162,7 @@ void updateLocation(struct Duallist *ALL_Vehicles, int slot, string trace_path){
         aCar = (struct vehicle*)aItem->datap;
         if(aCar->handled == 0){
 
-            duallist_destroy(&(aCar->packets), free); //这里可能存在内存泄露，因为没有把对应的指向的packet给清理掉
+            delete aCar->packets; // 内存泄露
             duallist_destroy(&(aCar->neighbours), NULL);
 
             struct Item* deleteItem = aItem;
@@ -166,6 +171,7 @@ void updateLocation(struct Duallist *ALL_Vehicles, int slot, string trace_path){
 
         }else{
             car_count++;
+            cnt_cars++;
             aItem = aItem->next;
         }
     }

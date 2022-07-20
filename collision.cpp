@@ -7,47 +7,47 @@
 #include "parameters.h"
 #include "vehicle.h"
 #include <cstdlib>
-
-void log_collision(struct collision* coli){
-    char output_collisions_path[100];
-    FILE * Collisions_output;
-    sprintf(output_collisions_path, "./simulation_result/bubble_collision_%d_%d.txt", SlotPerFrame, traffic_density);
-
-    Collisions_output = fopen(output_collisions_path,"a");
-
-    fprintf(Collisions_output, "No:%d, Type: %d, Slot: %d, Distance:%lf\n", cnt_coli++,coli->type, coli->slot, distance_between_vehicle(coli->src, coli->dst));
-
-    //src
-    fprintf(Collisions_output,"src ID: %d, x: %lf, y: %lf, comm.R: %lf \n",coli->src->id, coli->src->x, coli->src->y, coli->src->commRadius);
-    // for(int i = 0; i< SlotPerFrame; i++){
-    //     fprintf(Collisions_output,"%d ",coli->src_oneHop[i]);
-    // }
-    // fprintf(Collisions_output,"\n");
-    // for(int i = 0; i< SlotPerFrame; i++){
-    //     fprintf(Collisions_output,"%d ",coli->src_twoHop[i]);
-    // }
-    // fprintf(Collisions_output,"\n");
-
-    //dst
-    fprintf(Collisions_output,"dst ID: %d, x: %lf, y: %lf ,comm.R: %lf \n",coli->dst->id, coli->dst->x, coli->dst->y, coli->dst->commRadius);
-    // for(int i = 0; i< SlotPerFrame; i++){
-    //     fprintf(Collisions_output,"%d ",coli->dst_oneHop[i]);
-    // }
-    // fprintf(Collisions_output,"\n");
-    // for(int i = 0; i< SlotPerFrame; i++){
-    //     fprintf(Collisions_output,"%d ",coli->dst_twoHop[i]);
-    // }
-    fprintf(Collisions_output,"\n");
-
-    fclose(Collisions_output);
-
-    //释放当前结构体内存
-    free(coli->src_oneHop);
-    free(coli->src_twoHop);
-    free(coli->dst_oneHop);
-    free(coli->dst_twoHop);
-    free(coli);
-}
+//
+//void log_collision(struct collision* coli){
+//    char output_collisions_path[100];
+//    FILE * Collisions_output;
+//    sprintf(output_collisions_path, "./simulation_result/bubble_collision_%d_%d.txt", SlotPerFrame, traffic_density);
+//
+//    Collisions_output = fopen(output_collisions_path,"a");
+//
+//    fprintf(Collisions_output, "No:%d, Type: %d, Slot: %d, Distance:%lf\n", cnt_coli++,coli->type, coli->slot, distance_between_vehicle(coli->src, coli->dst));
+//
+//    //src
+//    fprintf(Collisions_output,"src ID: %d, x: %lf, y: %lf, comm.R: %lf \n",coli->src->id, coli->src->x, coli->src->y, coli->src->commRadius);
+//    // for(int i = 0; i< SlotPerFrame; i++){
+//    //     fprintf(Collisions_output,"%d ",coli->src_oneHop[i]);
+//    // }
+//    // fprintf(Collisions_output,"\n");
+//    // for(int i = 0; i< SlotPerFrame; i++){
+//    //     fprintf(Collisions_output,"%d ",coli->src_twoHop[i]);
+//    // }
+//    // fprintf(Collisions_output,"\n");
+//
+//    //dst
+//    fprintf(Collisions_output,"dst ID: %d, x: %lf, y: %lf ,comm.R: %lf \n",coli->dst->id, coli->dst->x, coli->dst->y, coli->dst->commRadius);
+//    // for(int i = 0; i< SlotPerFrame; i++){
+//    //     fprintf(Collisions_output,"%d ",coli->dst_oneHop[i]);
+//    // }
+//    // fprintf(Collisions_output,"\n");
+//    // for(int i = 0; i< SlotPerFrame; i++){
+//    //     fprintf(Collisions_output,"%d ",coli->dst_twoHop[i]);
+//    // }
+//    fprintf(Collisions_output,"\n");
+//
+//    fclose(Collisions_output);
+//
+//    //释放当前结构体内存
+//    free(coli->src_oneHop);
+//    free(coli->src_twoHop);
+//    free(coli->dst_oneHop);
+//    free(coli->dst_twoHop);
+//    free(coli);
+//}
 
 
 
